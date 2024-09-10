@@ -8,8 +8,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Getter
-@Setter
+@Data
 public class ListedStockAggregate implements Serializable {
     private String symbol;
     private String entity_name;
