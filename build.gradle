@@ -30,3 +30,7 @@ tasks.named('test') {
 }
 bootJar.enabled= false
 task prepareKotlinBuildScriptModel() {}
+
+tasks.named('bootBuildImage') {
+    enabled= false
+}
