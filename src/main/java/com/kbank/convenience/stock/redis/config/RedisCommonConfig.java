@@ -54,7 +54,7 @@ public class RedisCommonConfig {
         return new LettuceConnectionFactory(redisHost, redisPort);
     }
     @Bean("reactiveRedisTemplate")
-    public ReactiveRedisOperations<String, Object> reactiveRedisTemplate() {
+    public ReactiveRedisTemplate<String, Object> reactiveRedisTemplate() {
         ReactiveRedisConnectionFactory rrcf = reactiveRedisConnectionFactory();
 
         Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(Object.class);
