@@ -57,14 +57,20 @@ public class RedisCommonConfig {
     public ReactiveRedisTemplate<String, Object> reactiveRedisTemplate() {
         ReactiveRedisConnectionFactory rrcf = reactiveRedisConnectionFactory();
 
-        Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(Object.class);
+        ObjectMapper objectMapperForLocalDateTime = new ObjectMapper();
+        objectMapperForLocalDateTime.registerModule(new JavaTimeModule());
+        GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer(objectMapperForLocalDateTime);
 
         RedisSerializationContext.RedisSerializationContextBuilder<String, Object> builder = RedisSerializationContext
                 .newSerializationContext(new StringRedisSerializer());
 
-        RedisSerializationContext<String, Object> context = builder.value(serializer).hashValue(serializer)
-                .hashKey(serializer).build();
+        RedisSerializationContext<String, Object> context = builder
+                .value(genericJackson2JsonRedisSerializer)
+                .hashValue(genericJackson2JsonRedisSerializer)
+                .hashKey(new StringRedisSerializer())
+                .build();
+        ReactiveRedisTemplate<String, Object> template = new ReactiveRedisTemplate<>(rrcf, context);
 
-        return new ReactiveRedisTemplate<>(rrcf, context);
+        return template;
     }
 }
