@@ -1,5 +1,6 @@
 package com.kbank.convenience.stock.redis.config;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
@@ -59,6 +60,7 @@ public class RedisCommonConfig {
 
         ObjectMapper objectMapperForLocalDateTime = new ObjectMapper();
         objectMapperForLocalDateTime.registerModule(new JavaTimeModule());
+        objectMapperForLocalDateTime.enable(JsonParser.Feature.ALLOW_NUMERIC_LEADING_ZEROS);
         GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer(objectMapperForLocalDateTime);
 
         RedisSerializationContext.RedisSerializationContextBuilder<String, Object> builder = RedisSerializationContext
